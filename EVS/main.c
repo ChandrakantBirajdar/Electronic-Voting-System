@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "header.h"
-
+// for checking the data is commited or not
 void userLogin();
 
 int main()
