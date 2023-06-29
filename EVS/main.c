@@ -2,11 +2,37 @@
 #include <string.h>
 #include <stdlib.h>
 #include "header.h"
-// for checking the data is commited or not
-void userLogin();
 
+void userLogin();
+void setUserId();
+
+
+
+void setUserId()
+{
+    int userid=0;
+
+    
+    FILE *setuserid = fopen("userid.txt","a+");
+    if(setuserid==NULL)
+    {
+        perror("File can't be open");
+    }
+    else
+    {
+        if(fscanf(setuserid,"%d",&userid)==EOF)
+        {
+            userid = 0;
+            fprintf(setuserid,"%d",userid);
+            printf("Userid set to 0");
+        }
+        fclose(setuserid);
+    }
+    fclose(setuserid);
+}
 int main()
 {
+    setUserId();
 
     int choice = 0;
 

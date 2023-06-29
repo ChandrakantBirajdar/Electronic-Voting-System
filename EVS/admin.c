@@ -6,7 +6,7 @@ void viewRequest()
     
     struct Request request;
     char choice[10];
-
+    
     FILE *requestfile = fopen("VoterIdRequest.csv","r");
     
     if (requestfile == NULL)
@@ -36,6 +36,10 @@ void viewRequest()
                 printf("Request denied successfully \n");
             }
         }
+
+        fclose(requestfile);
+        requestfile = fopen("VoterIdRequest.csv","w");
+        fclose(requestfile);
     }
 }
 
