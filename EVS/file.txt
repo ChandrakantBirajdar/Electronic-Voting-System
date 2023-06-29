@@ -1,0 +1,1 @@
+       // fprintf(userDetails,"\nFirstname= %s \nLastNmae: %s  \nDOB= %d/%d/%d \nAge=%d  \nGender= %s \nPassword= %s \n Address= %s \n PhoneNumber= %d \n district= %s  \nConstituency=%s",newuser.firstname,newuser.lastname,newuser.day, newuser.mon, newuser.year ,newuser.age,newuser.gender,newuser.password,newuser.address,newuser.phoneno,newuser.district,newuser.constituency);
