@@ -4,15 +4,51 @@
 #include "header.h"
 
 void userLogin();
+void userchoice();
 void setUserId();
 
 
+void userchoice()
+{
+   int choice = 0;
+
+    char ch[10];
+
+    while (choice != 3)
+    {
+        printf("\n---------------------------------------------------------|\n");
+        printf("     \033[0;32m   Please select an option: \033[0;32m                      \033[0;36m|\033[0;37m\n");
+        printf("---------------------------------------------------------|\n");
+        printf("\n1.  User Login ");
+        printf("\n2.  User Registration ");
+        printf("\n3.  Back to Menu ");
+        printf("\n");
+        printf(" Enter The Choice: ");
+
+        scanf("%s", ch);
+        choice = atoi(ch);
+        switch (choice)
+        {
+        case 1:
+            userLogin();
+            break;
+        case 2:
+            userRegistration();
+            break;
+        case 3:
+            break;
+        default:
+            printf("\033[0;31m\n");
+            printf(" Invalid Data Enterd Please Enter Valid choise !!! \n");
+            printf("\033[0;37m\n");
+        }
+    }
+}
 
 void setUserId()
 {
     int userid=0;
 
-    
     FILE *setuserid = fopen("userid.txt","a+");
     if(setuserid==NULL)
     {
@@ -30,9 +66,33 @@ void setUserId()
     }
     fclose(setuserid);
 }
+
+
+void setCandidateId()
+{
+    int candidateId=0;
+
+    FILE *setcandidateid = fopen("candidateId.txt","a+");
+    if(setcandidateid==NULL)
+    {
+        perror("File can't be open");
+    }
+    else
+    {
+        if(fscanf(setcandidateid,"%d",&candidateId)==EOF)
+        {
+            candidateId = 0;
+            fprintf(setcandidateid,"%d",candidateId);
+            printf("CandidateId set to 0");
+        }
+        fclose(setcandidateid);
+    }
+    fclose(setcandidateid);
+}
 int main()
 {
     setUserId();
+    setCandidateId();
 
     int choice = 0;
 
@@ -64,7 +124,7 @@ int main()
             officerMenu();
             break;
         case 3:
-            userLogin();            
+            userchoice();            
             break;
         case 4:
             break;
@@ -110,9 +170,8 @@ void userLogin()
         
         if(present==0)
         {
-            printf("Seems like you haven't registered to EVS \n");
+            printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
             printf("To login to EVS  please register to EVS\n");
-            userRegistration();
             fclose(user);
         }
 

@@ -30,6 +30,8 @@ void viewVoterRequest()
                 sec++;
                }
             }
+            printf("\n");
+            printf("\n");
             
             generateVoterId(currentuserId);
         }
@@ -39,6 +41,7 @@ void generateVoterId(int userId)
 {
     struct User newUser;
     int currentUserId = userId;
+
     FILE *user = fopen("UserDetails.csv", "r+");
     if (user == NULL)
     {
@@ -104,8 +107,9 @@ void generateVoterId(int userId)
             strcat(VoterId, stringYear);
 
             strcpy(newUser.VoterId,VoterId);
-            printf("\nVoterId = %s", VoterId);
-            
+            printf("VoterId is Generated successfully!!!\n");
+            printf("\nVoterId = %s\n", VoterId);
+
             fseek(user,-sizeof(newUser),SEEK_CUR);
             fwrite(&newUser,sizeof(newUser),1,user);
         }
@@ -122,10 +126,10 @@ void officerMenu()
     while (choice != 2)
     {
         printf("\n---------------------------------------------------------|\n");
-        printf("     \033[0;32m  Electronic Voting Machine\033[0;32m                      \033[0;36m|\033[0;37m\n");
+        printf("     \033[0;32m  Electoral Officer Menu \033[0;32m                      \033[0;36m|\033[0;37m\n");
         printf("---------------------------------------------------------|\n");
         printf("Please select an option:  ");
-        printf("\n1.View Voter Request");
+        printf("\n1.View Voter Request and Generate VoterId");
         printf("\n2.Exit");
         printf("\n");
         printf(" Enter The Choice: ");
