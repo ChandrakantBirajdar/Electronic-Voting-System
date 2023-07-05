@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #include "header.h"
 
-void userLogin();
-void userchoice();
-void setUserId();
 
 
 void userchoice()
@@ -31,6 +28,7 @@ void userchoice()
         {
         case 1:
             userLogin();
+            //getAllDetails();
             break;
         case 2:
             userRegistration();
@@ -49,7 +47,7 @@ void setUserId()
 {
     int userid=0;
 
-    FILE *setuserid = fopen("userid.txt","a+");
+    FILE *setuserid = fopen("userid.txt","r+");
     if(setuserid==NULL)
     {
         perror("File can't be open");
@@ -72,7 +70,7 @@ void setCandidateId()
 {
     int candidateId=0;
 
-    FILE *setcandidateid = fopen("candidateId.txt","a+");
+    FILE *setcandidateid = fopen("candidateId.txt","r+");
     if(setcandidateid==NULL)
     {
         perror("File can't be open");
@@ -118,10 +116,10 @@ int main()
         switch (choice)
         {
         case 1:
-            adminMenu();
+            adminLogin();
             break;
         case 2:
-            officerMenu();
+            ElectorOfficerLogin();
             break;
         case 3:
             userchoice();            
@@ -176,6 +174,100 @@ void userLogin()
         }
 
         fclose(user);
+
+    }
+}
+
+
+void adminLogin()
+{
+   
+    int adminId;
+    char password[20];
+
+    int Admin_ID=0;
+    char Admin_Password[20];
+
+    int present = 0;
+    printf("Enter AdminId: ");
+    scanf("%d",&adminId);
+    printf("Enter AdminPassword: ");
+    scanf("%s",password);
+
+    FILE *admindata = fopen("AdminData.csv","r+");
+     if (admindata == NULL)
+    {
+        perror("Error in file opening\n");
+    }
+    else
+    {
+        while(fscanf(admindata,"%d %s",&Admin_ID,Admin_Password))
+        {
+            if( adminId==Admin_ID  && strcmp(password,Admin_Password)==0 )
+            {
+                present=1;
+                adminMenu();
+                fclose(admindata);
+                break;
+            }
+            break;
+        }
+        
+        if(present==0)
+        {
+            printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
+            printf("To login to EVS  please register to EVS\n");
+            fclose(admindata);
+        }
+
+        fclose(admindata);
+
+    }
+}
+
+
+void ElectorOfficerLogin()
+{
+   
+    int ElectorId;
+    char password[20];
+
+    int Elector_ID=0;
+    char Elector_Password[20];
+
+    int present = 0;
+    printf("Enter ElectorId: ");
+    scanf("%d",&ElectorId);
+    printf("Enter ElectorPassword: ");
+    scanf("%s",password);
+
+    FILE *electordata = fopen("ElectorData.csv","r+");
+     if (electordata == NULL)
+    {
+        perror("Error in file opening\n");
+    }
+    else
+    {
+        while(fscanf(electordata,"%d %s",&Elector_ID,Elector_Password))
+        {
+            if( ElectorId==Elector_ID && strcmp(password,Elector_Password)==0 )
+            {
+                present=1;
+                officerMenu();
+                fclose(electordata);
+                break;
+            }
+            break;
+        }
+
+        if(present==0)
+        {
+            printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
+            printf("To login to EVS  please register to EVS\n");
+            fclose(electordata);
+        }
+
+        fclose(electordata);
 
     }
 }
