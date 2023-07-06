@@ -266,7 +266,7 @@ void ElectorOfficerLogin()
             printf("To login to EVS  please register to EVS\n");
             fclose(electordata);
         }
-
+//hello
         fclose(electordata);
 
     }

@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "header.h"
 
-
-
-
 void addElection()
 {
 	struct Election  e;
@@ -435,6 +432,24 @@ void addParty()
 //	fprintf(partyfile,"%s   %s   %s\n",p.name,p.leader,p.symbol);
 	fclose(partyfile);
 }
+
+// struct Party *head_party,*current_party=NULL;
+
+// void viewParty()
+// {
+// 	struct Party p;
+// 	FILE *partyfile;
+// 	partyfile=fopen("party.csv","r");
+//     current_party=head_party;
+//     printf("\n=======================Party Details======================\n");
+	
+// 	printf("\nParty Name      Party Leader    Party Symbol\n");
+// 	while(current_party!=NULL){
+//         printf("%s%20s%15s\n",current_party->name,current_party->leader,current_party->symbol);
+//        current_party=current_party->next;
+//     }
+// 	fclose(partyfile);
+// }
 
 void viewParty()
 {

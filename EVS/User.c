@@ -73,16 +73,16 @@ void userRegistration()
 	int digitCount=0;
     struct User newuser;
     int userId = 0;
-    FILE *getuserId = fopen("userid.txt", "r+");
+    // FILE *getuserId = fopen("userid.txt", "r+");
 
-    fscanf(getuserId, "%d", &userId);
-    newuser.UserId = ++userId;
-    fclose(getuserId);
+    // fscanf(getuserId, "%d", &userId);
+    // newuser.UserId = ++userId;
+    // fclose(getuserId);
 
-    getuserId = fopen("userid.txt", "w");
-    rewind(getuserId);
-    fprintf(getuserId, "%d", userId);
-    fclose(getuserId);
+    // getuserId = fopen("userid.txt", "w");
+    // rewind(getuserId);
+    // fprintf(getuserId, "%d", userId);
+    // fclose(getuserId);
 
     FILE *userDetails = fopen("UserDetails.csv", "a");
     if (userDetails == NULL)
@@ -169,21 +169,19 @@ void userRegistration()
                     m = strtok(NULL, "/");
                     y = strtok(NULL, "/");
                     day = atoi(d);
-                   // newuser.day=day;
+                   
 
                     month = atoi(m);
 
-                   // newuser.mon=month;
+                   
 
                     year = atoi(y);
 
-                  //  newuser.year=year;
+                  
 
                     if ((isValidDate(day, month, year)) && (strlen(d) == 1 || strlen(d) == 2) && (strlen(m) == 1 || strlen(m) == 2) && (strlen(y) == 4))
                     {
-                         printf("\nday=%d",newuser.day);
-                printf("\nmon=%d",newuser.mon);
-                printf("\nyer=%d",newuser.year);
+                        
                 
                         break;
                     }
@@ -270,8 +268,10 @@ void userRegistration()
         //----------------------------------------
 
         strcpy(newuser.VoterId, "");
+        newuser.User
         fwrite(&newuser, sizeof(newuser), 1, userDetails);
         printf("\n Registration successfull  !!! ");
+        newuser.UserId = getUserId();
         printf("\n Your User id is %d ", newuser.UserId);
     label:
         fclose(userDetails);

@@ -41,6 +41,7 @@ struct Party {
 	char name[20];
 	char leader[20];
 	char symbol[20];
+    struct Party *next;
 };
 
 
@@ -57,7 +58,8 @@ struct Candidate {
 	char email[20];
     int voteCount;
 };
-
+void updateBatchId(int batchId);
+int getBatchId();
 void getAllDetails();
 int isLeapYear(int year);
 int isValidDate(int day,int month,int year);

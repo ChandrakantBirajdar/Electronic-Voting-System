@@ -1,0 +1,47 @@
+# cc = gcc
+
+# target = a.out
+
+# $(target): main.o admin.o electoralOfficer.o User.o
+# 	$(cc)  main.o admin.o electoralOfficer.o User.o -o $(target)
+
+# main.o:main.c  header.h
+# 	$(cc) -c main.c
+
+# admin.o:admin.c  header.h
+# 	$(cc) -c admin.c
+
+# electoralOfficer.o:electoralOfficer.c  header.h
+# 	$(cc) -c electoralOfficer.c
+
+# User.o:User.c  header.h
+# 	$(cc) -c User.c
+
+# clean:
+# 	rm -f $(target)
+
+cc = gcc
+
+target = a.out
+
+$(target): main.o admin.o electoralOfficer.o User.o function.o
+	$(cc)  main.o admin.o electoralOfficer.o User.o function.o -o $(target)
+
+main.o:main.c  header.h
+	$(cc) -c main.c
+
+admin.o:admin.c  header.h
+	$(cc) -c admin.c
+
+electoralOfficer.o:electoralOfficer.c  header.h
+	$(cc) -c electoralOfficer.c
+
+User.o:User.c  header.h
+	$(cc) -c User.c
+function.o:function.c  header.h
+	$(cc) -c function.c
+getUserId.o:getUserId.c  header.h
+	$(cc) -c getUserId.c
+
+clean:
+	rm -f $(target)
