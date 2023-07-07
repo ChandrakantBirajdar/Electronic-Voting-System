@@ -1,47 +1,50 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "header.h"
+#include "header/header.h"
 
 
 
-void userchoice()
-{
-   int choice = 0;
+// void userchoice()
+// {
+//    int choice = 0;
 
-    char ch[10];
+//     char ch[10];
 
-    while (choice != 3)
-    {
-        printf("\n---------------------------------------------------------|\n");
-        printf("     \033[0;32m   Please select an option: \033[0;32m                      \033[0;36m|\033[0;37m\n");
-        printf("---------------------------------------------------------|\n");
-        printf("\n1.  User Login ");
-        printf("\n2.  User Registration ");
-        printf("\n3.  Back to Menu ");
-        printf("\n");
-        printf(" Enter The Choice: ");
+//     while (choice != 3)
+//     {
+        
 
-        scanf("%s", ch);
-        choice = atoi(ch);
-        switch (choice)
-        {
-        case 1:
-            userLogin();
-            //getAllDetails();
-            break;
-        case 2:
-            userRegistration();
-            break;
-        case 3:
-            break;
-        default:
-            printf("\033[0;31m\n");
-            printf(" Invalid Data Enterd Please Enter Valid choise !!! \n");
-            printf("\033[0;37m\n");
-        }
-    }
-}
+//         printf(COLOR_BLUE"|------------------------------------------------------------------------|\n"COLOR_RESET);
+//         printf(COLOR_BLUE"|"COLOR_MAGENTA COLOR_BOLD"                        Please select an option:                                     "COLOR_RESET COLOR_BLUE "|\n"COLOR_RESET);
+//         printf(COLOR_BLUE"|------------------------------------------------------------------------|\n"COLOR_RESET);
+//         printf(COLOR_BOLD"|Please select an option:                                                | \n"COLOR_RESET);
+//         printf("%-3s%-70s%-30s\n","|", " 1.  User Login","|");
+//         printf("%-3s%-70s%-30s\n","|", " 2.  User Registration","|");
+//         printf("%-3s%-70s%-30s\n","|", " 3.  Back to Menu","|");
+//         printf("|------------------------------------------------------------------------|\n");
+//         printf("\n");
+//         printf(COLOR_BOLD" Enter The Choice:"COLOR_RESET);
+//         scanf("%s", ch);
+//         choice = atoi(ch);
+//         switch (choice)
+//         {
+//         case 1:
+//             userLogin();
+            
+//             break;
+//         case 2:
+//             userRegistration();
+//             break;
+//         case 3:
+//             break;
+//         default:
+//             printf("\033[0;31m\n");
+//             printf(" Invalid Data Enterd Please Enter Valid choise !!! \n");
+//             printf("\033[0;37m\n");
+//         }
+//     }
+// }
 
 void setUserId()
 {
@@ -95,21 +98,25 @@ int main()
     int choice = 0;
 
     char ch[10];
+    printf("\n");
+    printf( COLOR_BOLD"|--------------------------------------"COLOR_RESET COLOR_YELLOW"Welcome To Electonic Voting System" COLOR_RESET COLOR_BOLD "-------------------------------------------------|\n"COLOR_RESET);
+    printf("\n");
 
     while (choice != 4)
     {
-        printf("\n---------------------------------------------------------|\n");
-        printf("     \033[0;32m  Electronic Voting Machine\033[0;32m                      \033[0;36m|\033[0;37m\n");
-        printf("---------------------------------------------------------|\n");
-        printf("     Please select an option:  ");
-        printf("\n1.  Administrator ");
-        printf("\n2.  Electoral Officier ");
-        printf("\n3.  User ");
-        printf("\n4.  Exit");
+        
+        printf(COLOR_BLUE"|------------------------------------------------------------------------|\n"COLOR_RESET);
+        printf(COLOR_BLUE"|"COLOR_CYAN COLOR_BOLD"                        Electronic Voting Machine                       "COLOR_RESET COLOR_BLUE "|\n"COLOR_RESET);
+        printf(COLOR_BLUE"|------------------------------------------------------------------------|\n"COLOR_RESET);
+        printf(COLOR_BOLD"|Please select an option:                                                | \n"COLOR_RESET);
+        printf("%-3s%-70s%-30s\n","|", " 1.  Administrator","|");
+        printf("%-3s%-70s%-30s\n","|", " 2.  Electoral Officier","|");
+        printf("%-3s%-70s%-30s\n","|", " 3.  User","|");
+        printf("|   4. Exit                                                              |\n");
+        printf("|------------------------------------------------------------------------|\n");
         printf("\n");
-        printf(" Enter The Choice: ");
+        printf(COLOR_BOLD" Enter The Choice:"COLOR_RESET);
 
-        // scanf("%d", &choice1);
 
         scanf("%s", ch);
         choice = atoi(ch);
@@ -137,46 +144,90 @@ int main()
     return 0;
 }
 
-void userLogin()
-{
-    struct User newUser;
-    int UserId;
-    char password[20];
+// void userLogin()
+// {
+//     struct User newUser;
+//     int UserId;
+//     char password[20];
 
-    int present = 0;
-    printf("Enter UserId: ");
-    scanf("%d",&UserId);
-    printf("Enter Password: ");
-    scanf("%s",password);
+//     int present = 0;
+//     printf("Enter UserId: ");
+//     scanf("%d",&UserId);
+//     printf("Enter Password: ");
+//     scanf("%s",password);
 
-    FILE *user = fopen("UserDetails.csv","r");
-     if (user == NULL)
-    {
-        perror("Error in file opening\n");
-    }
-    else
-    {
-        while(fread(&newUser,sizeof(newUser),1,user))
-        {
-            if( newUser.UserId==UserId && strcmp(newUser.password,password)==0)
-            {
-                present=1;
-                userMenu(UserId);
-                fclose(user);
-            }
-        }
+//     FILE *user = fopen("UserDetails.csv","r");
+//      if (user == NULL)
+//     {
+//         perror("Error in file opening\n");
+//     }
+//     else
+//     {
+//         while(fread(&newUser,sizeof(newUser),1,user))
+//         {
+//             if( newUser.UserId==UserId && strcmp(newUser.password,password)==0)
+//             {
+//                 present=1;
+//                 userMenu(UserId);
+//                 fclose(user);
+//             }
+//         }
         
-        if(present==0)
-        {
-            printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
-            printf("To login to EVS  please register to EVS\n");
-            fclose(user);
-        }
+//         if(present==0)
+//         {
+//             printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
+//             printf("To login to EVS  please register to EVS\n");
+//             fclose(user);
+//         }
 
-        fclose(user);
+//         fclose(user);
 
-    }
-}
+//     }
+// }
+
+
+
+
+// void userLogin()
+// {
+//     struct User newUser;
+//     int UserId;
+//     char password[20];
+
+//     int present = 0;
+//     printf("Enter UserId: ");
+//     scanf("%d",&UserId);
+//     printf("Enter Password: ");
+//     scanf("%s",password);
+
+//     FILE *user = fopen("UserDetails.csv","r");
+//      if (user == NULL)
+//     {
+//         perror("Error in file opening\n");
+//     }
+//     else
+//     {
+//         while(fread(&newUser,sizeof(newUser),1,user))
+//         {
+//             if( newUser.UserId==UserId && strcmp(newUser.password,password)==0)
+//             {
+//                 present=1;
+//                 userMenu(UserId);
+//                 fclose(user);
+//             }
+//         }
+        
+//         if(present==0)
+//         {
+//             printf("Invalid Credentials OR Seems like you haven't registered to EVS  \n");
+//             printf("To login to EVS  please register to EVS\n");
+//             fclose(user);
+//         }
+
+//         fclose(user);
+
+//     }
+// }
 
 
 void adminLogin()
@@ -206,7 +257,8 @@ void adminLogin()
             if( adminId==Admin_ID  && strcmp(password,Admin_Password)==0 )
             {
                 present=1;
-                adminMenu();
+                printf(COLOR_GREEN COLOR_BOLD"\nlogin Succussfull...\n"COLOR_RESET);
+                adminMenu();               
                 fclose(admindata);
                 break;
             }
@@ -253,6 +305,7 @@ void ElectorOfficerLogin()
             if( ElectorId==Elector_ID && strcmp(password,Elector_Password)==0 )
             {
                 present=1;
+                printf(COLOR_GREEN COLOR_BOLD"\nlogin Succussfull...\n"COLOR_RESET);
                 officerMenu();
                 fclose(electordata);
                 break;
@@ -266,7 +319,7 @@ void ElectorOfficerLogin()
             printf("To login to EVS  please register to EVS\n");
             fclose(electordata);
         }
-//hello
+
         fclose(electordata);
 
     }

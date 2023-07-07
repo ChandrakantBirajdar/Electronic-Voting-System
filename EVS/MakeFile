@@ -1,47 +1,28 @@
-# cc = gcc
-
-# target = a.out
-
-# $(target): main.o admin.o electoralOfficer.o User.o
-# 	$(cc)  main.o admin.o electoralOfficer.o User.o -o $(target)
-
-# main.o:main.c  header.h
-# 	$(cc) -c main.c
-
-# admin.o:admin.c  header.h
-# 	$(cc) -c admin.c
-
-# electoralOfficer.o:electoralOfficer.c  header.h
-# 	$(cc) -c electoralOfficer.c
-
-# User.o:User.c  header.h
-# 	$(cc) -c User.c
-
-# clean:
-# 	rm -f $(target)
 
 cc = gcc
 
 target = a.out
 
-$(target): main.o admin.o electoralOfficer.o User.o function.o
-	$(cc)  main.o admin.o electoralOfficer.o User.o function.o -o $(target)
+$(target): main.o admin.o electoralOfficer.o User.o function.o userCredentials.o
+	$(cc)  main.o admin.o electoralOfficer.o User.o function.o userCredentials.o -o $(target)
 
-main.o:main.c  header.h
+main.o:main.c  header/header.h
 	$(cc) -c main.c
 
-admin.o:admin.c  header.h
-	$(cc) -c admin.c
+admin.o:source/admin.c   header/header.h
+	$(cc) -c source/admin.c
 
-electoralOfficer.o:electoralOfficer.c  header.h
-	$(cc) -c electoralOfficer.c
+electoralOfficer.o:source/electoralOfficer.c   header/header.h
+	$(cc) -c source/electoralOfficer.c
 
-User.o:User.c  header.h
-	$(cc) -c User.c
-function.o:function.c  header.h
-	$(cc) -c function.c
-getUserId.o:getUserId.c  header.h
-	$(cc) -c getUserId.c
+User.o:source/User.c   header/header.h
+	$(cc) -c source/User.c
+
+function.o:source/function.c   header/header.h
+	$(cc) -c source/function.c
+	
+userCredentials.o:source/userCredentials.c   header/header.h
+	$(cc) -c source/userCredentials.c
 
 clean:
 	rm -f $(target)
