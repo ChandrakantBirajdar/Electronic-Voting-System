@@ -1,4 +1,4 @@
-// #include <stdio.h>
+
 #include "../header/header.h"
 
 
@@ -10,6 +10,7 @@ int getCurrentdate()
     int day = localTime->tm_mday;         // Get day of the month
     int month = localTime->tm_mon + 1;    // Get month (January is 0)
     int year = localTime->tm_year + 1900; // Get year (since 1900)
+
     //printf("%02d/%02d/%04d\n", day, month, year);  // Print in dd/mm/yyyy format
     return year;
 }
@@ -47,6 +48,9 @@ int validElectionDate(int day,int month,int year){
     }
     return 0;
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void viewRequestStatus(int currentUser)
 {
     struct Request request;
@@ -80,6 +84,7 @@ void viewRequestStatus(int currentUser)
     }
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void requsetVoterId(int userId)
 {
@@ -107,7 +112,8 @@ void requsetVoterId(int userId)
                     request.UserId = UserId;
                     strcpy(request.status, "Pending");
                     fwrite(&request, sizeof(request), 1, userRequest);
-                    printf(COLOR_GREEN"\nSuccessfully Requested for VoterId\n"COLOR_RESET);
+                    printf(COLOR_GREEN COLOR_BOLD"\nSuccessfully Requested for VoterId\n"COLOR_RESET);
+                    printf("\n");
                     fclose(userRequest);
 
                     FILE *requeststatus = fopen("RequestStatus.csv", "a");
@@ -120,13 +126,17 @@ void requsetVoterId(int userId)
                 }
                 else
                 {
-                    printf(COLOR_RED"\nYour VoterId is already generated !!!\n"COLOR_RESET);
+                    printf(COLOR_RED COLOR_BOLD"\nYour VoterId is already generated !!!\n"COLOR_RESET);
+                    printf("\n");
                 }
             }
         }
         fclose(userDetails);
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void viewVoterId(int userId)
 {
     struct User newUser;
@@ -146,6 +156,8 @@ void viewVoterId(int userId)
     }
     fclose(user);
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void viewElectionSchedules(int userId)
 {
@@ -182,18 +194,28 @@ void viewElectionSchedules(int userId)
     else
     {
 
-        printf("\n=======================Election Details======================\n");
-        printf("\nName\tElectionDate\tVoting Time\t   District\tConstituency\n");
+        
+        printf("\n");
+        printf(COLOR_BLUE COLOR_BOLD"|----------------------------------------------Election Details------------------------------------------------------|\n"COLOR_RESET);
+        printf(COLOR_GREEN"%-10s%-20s%-30s%-20s%-20s%-15s\n","|","Name","ElectionDate","Voting_Time","District","Constituency"COLOR_RESET);
+        printf(COLOR_BLUE"|--------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
+        
 
         while (fread(&e, sizeof(e), 1, electionfile))
         {
             if ((strcmp(e.constituency, UserConstituency) == 0) && (strcmp(e.district, UserDistrict) == 0))
             {
-                printf("%s\t%s\t%s  %s\t%s\n", e.name, e.date, e.time, e.district, e.constituency);
+                
+                printf("%-10s%-20s%-30s%-20s%-20s%-15s\n","|",e.name, e.date, e.time, e.district, e.constituency);
+                printf("|--------------------------------------------------------------------------------------------------------------------|\n");
             }
         }
+        printf("\n");
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void vote()
 {
     char electionName[50];
@@ -202,7 +224,7 @@ void vote()
 
     int candidateId = 0;
 label:
-    printf(COLOR_BOLD"\nEnter the Election Name to proceed the voting process : ");
+    printf(COLOR_BOLD COLOR_CYAN"\nEnter the Election Name to proceed the voting process : "COLOR_RESET);
     scanf(" %[^\n]s", electionName);
 
     FILE *electionfile = fopen("election.csv", "r");
@@ -216,16 +238,18 @@ label:
                 present = 1;
                 FILE *candidatefile = fopen("candidate.csv", "r+");
                 printf("\n");
-                printf("\nCandidate ID\t\tCandidate Name\t\tParty Name\n");
+                printf("%-10s%-20s%-20s\n","Candidate ID","Candidate Name","Party Name");
 
                 while (fread(&candidate, sizeof(candidate), 1, candidatefile))
                 {
                     if (strcmp(candidate.electname, electionName) == 0)
                     {
-                        printf("\n%d\t\t%s\t\t%s", candidate.candidateId, candidate.name, candidate.partyname);
+                        // printf("\n%d\t\t%s\t\t%s", candidate.candidateId, candidate.name, candidate.partyname);
+                        printf("%-10d%-20s%-20s\n", candidate.candidateId, candidate.name, candidate.partyname);
                     }
                 }
                 rewind(candidatefile);
+                printf("\n");
             candidatelabel:
                 printf(COLOR_BOLD"\nPlease enter the CandidateId to vote for that Candidate : ");
                 scanf("%d", &candidateId);
@@ -242,13 +266,13 @@ label:
                         fseek(candidatefile, -sizeof(candidate), SEEK_CUR);
                         fwrite(&candidate, sizeof(candidate), 1, candidatefile);
 
-                        printf(COLOR_GREEN COLOR_BOLD"\nCongratulation You have Voted successfully"COLOR_RESET);
+                        printf(COLOR_GREEN COLOR_BOLD"\nCongratulation You have Voted successfully\n"COLOR_RESET);
                         break;
                     }
                 }
                 if (flag == 0)
                 {
-                    printf(COLOR_RED"\nPlease enter Valid candidate Id from above list\n"COLOR_RESET);
+                    printf(COLOR_RED COLOR_BOLD"\nPlease enter Valid candidate Id from above list\n"COLOR_RESET);
                     goto candidatelabel;
                 }
                 fclose(candidatefile);
@@ -258,11 +282,14 @@ label:
 
         if (present == 0)
         {
-            printf(COLOR_RED"\nplease enter valid election name from above list of elections\n"COLOR_RESET);
+            printf(COLOR_RED COLOR_BOLD"\nplease enter valid election name from above list of elections\n"COLOR_RESET);
             goto label;
         }
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void castVotes(int userId)
 {
 
@@ -299,6 +326,7 @@ void castVotes(int userId)
     fclose(userfile);
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void viewElectionResult(int userId)
 {
     int currentUser = userId;
@@ -342,18 +370,35 @@ void viewElectionResult(int userId)
         }
         else
         {
-            printf("\n=======================Election Details======================\n");
-            printf("\nName\tElectionDate\tVoting Time\t   District\tConstituency\n");
+            
+
+            printf("\n");
+            printf(COLOR_BLUE COLOR_BOLD"|----------------------------------------------Election Details------------------------------------------------------|\n"COLOR_RESET);
+            printf(COLOR_GREEN"%-10s%-20s%-30s%-20s%-20s%-15s\n","|","Name","ElectionDate","Voting_Time","District","Constituency"COLOR_RESET);
+            printf(COLOR_BLUE"|--------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
+            
+
 
             while (fread(&election, sizeof(election), 1, electionfile))
             {
                 if (strcmp(election.date, date) == 0 && strcmp(election.constituency, userConstituency) == 0)
                 {
                     strcpy(electionName, election.name);
-                    printf("%s\t%s\t%s  %s\t%s\n", election.name, election.date, election.time, election.district, election.constituency);
+                    // printf("%s\t%s\t%s  %s\t%s\n", election.name, election.date, election.time, election.district, election.constituency);
+                    printf("%-10s%-20s%-30s%-20s%-20s%-15s\n","|",election.name, election.date, election.time, election.district, election.constituency);
+                    printf("|--------------------------------------------------------------------------------------------------------------------|\n");
                 }
             }
+             
             fclose(electionfile);
+            printf("\n");
+            
+
+
+
+
+
+
 
             FILE *candidatefile = fopen("candidate.csv", "r");
             if (candidatefile == NULL)
@@ -362,8 +407,15 @@ void viewElectionResult(int userId)
             }
             else
             {
-                printf("\n=======================Candidate Details======================\n");
-                printf("\nCandidate ID  Candidate Name   Election Name  Party Name  District    Constituency  Number Of Votes");
+                
+                printf("\n");
+                printf(COLOR_BLUE COLOR_BOLD"|------------------------------------------------------------Candidate Details----------------------------------------------------------------------------|\n"COLOR_RESET);
+                printf("\n");
+                printf(COLOR_GREEN COLOR_BOLD"%-5s%-15s%-20s%-20s%-15s%-20s%-15s%-13s\n","|","Candidate ID","Candidate Name","Election Name","Party Name","District","Constituency","Number Of Votes"COLOR_RESET);
+                printf(COLOR_BLUE"|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
+
+
+
                 while (fread(&candidate, sizeof(candidate), 1, candidatefile))
                 {
                     if (strcmp(candidate.electname, electionName) == 0)
@@ -391,13 +443,16 @@ void viewElectionResult(int userId)
                 {
                     if (candidate.voteCount == VoteCount[k])
                     {
-                        printf("\n%d %s %s %s %s %s %d", candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency, candidate.voteCount);
+                        
+                        printf("%-5s%-15d%-20s%-20s%-15s%-20s%-15s%-13d\n","|",candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency,candidate.voteCount);
+                        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
                         k++;
                         rewind(candidatefile);
                     }
                 }
 
                 fclose(candidatefile);
+                printf("\n");
             }
         }
     }
@@ -415,17 +470,25 @@ void viewElectionResult(int userId)
         }
         else
         {
-            printf("\n=======================Election Details======================\n");
-            printf("\nName\tElectionDate\tVoting Time\t   District\tConstituency\n");
+            printf("\n");
+            printf(COLOR_BLUE COLOR_BOLD"|----------------------------------------------Election Details------------------------------------------------------|\n"COLOR_RESET);
+            printf(COLOR_GREEN"%-10s%-20s%-30s%-20s%-20s%-15s\n","|","Name","ElectionDate","Voting_Time","District","Constituency"COLOR_RESET);
+            printf(COLOR_BLUE"|--------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
+            
+
 
             while (fread(&election, sizeof(election), 1, electionfile))
             {
                 if (strcmp(election.constituency, constituency) == 0)
                 {
                     strcpy(electionName, election.name);
-                    printf("%s\t%s\t%s  %s\t%s\n", election.name, election.date, election.time, election.district, election.constituency);
+                    
+                    printf("%-10s%-20s%-30s%-20s%-20s%-15s\n","|",election.name, election.date, election.time, election.district, election.constituency);
+                    printf("|--------------------------------------------------------------------------------------------------------------------|\n");
+
                 }
             }
+            printf("\n");
             fclose(electionfile);
 
             FILE *candidatefile = fopen("candidate.csv", "r");
@@ -435,18 +498,15 @@ void viewElectionResult(int userId)
             }
             else
             {
-                // printf("\n=======================Candidate Details======================\n");
-                // printf("\nCandidate ID  Candidate Name   Election Name  Party Name  District    Constituency  Number Of Votes");
-                // while (fread(&candidate, sizeof(candidate), 1, candidatefile))
-                // {
-                //     if (strcmp(candidate.electname, electionName) == 0)
-                //     {
-                //         printf("\n%d %s %s %s %s %s %d", candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency, candidate.voteCount);
-                //     }
-                // }
-                // fclose(candidatefile);
-                printf("\n=======================Candidate Details======================\n");
-                printf("\nCandidate ID  Candidate Name   Election Name  Party Name  District    Constituency  Number Of Votes");
+               
+                printf("\n");
+                printf(COLOR_BLUE COLOR_BOLD"|------------------------------------------------------------Candidate Details----------------------------------------------------------------------------|\n"COLOR_RESET);
+                printf("\n");
+                printf(COLOR_GREEN COLOR_BOLD"%-5s%-15s%-20s%-20s%-15s%-20s%-15s%-13s\n","|","Candidate ID","Candidate Name","Election Name","Party Name","District","Constituency","Number Of Votes"COLOR_RESET);
+                printf(COLOR_BLUE"|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
+
+                
+                
                 while (fread(&candidate, sizeof(candidate), 1, candidatefile))
                 {
                     if (strcmp(candidate.electname, electionName) == 0)
@@ -474,17 +534,22 @@ void viewElectionResult(int userId)
                 {
                     if (candidate.voteCount == VoteCount[k])
                     {
-                        printf("\n%d %s %s %s %s %s %d", candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency, candidate.voteCount);
+                        // printf("\n%d %s %s %s %s %s %d", candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency, candidate.voteCount);
+                        printf("%-5s%-15d%-20s%-20s%-15s%-20s%-15s%-13d\n","|",candidate.candidateId, candidate.name, candidate.electname, candidate.partyname, candidate.district, candidate.constituency,candidate.voteCount);
+                        printf("|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n");
                         k++;
                         rewind(candidatefile);
                     }
                 }
-
+                printf("\n");
                 fclose(candidatefile);
             }
         }
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 void userMenu(int userId)
 {
@@ -547,3 +612,5 @@ void userMenu(int userId)
         }
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------

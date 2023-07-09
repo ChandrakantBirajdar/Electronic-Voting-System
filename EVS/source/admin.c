@@ -53,17 +53,17 @@ void addElection()
 				}
 				else
 				{
-					printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+					printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date\n"COLOR_RESET);
 				}
 			}
 			else
 			{
-				printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+				printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date\n"COLOR_RESET);
 			}
 		}
 		else
 		{
-			printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+			printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date\n"COLOR_RESET);
 		}
 	}
     //
@@ -77,7 +77,7 @@ void addElection()
     for(int i = 0 ; e.district[i]!='\0';i++){
         if(!isalpha(e.district[i]))
         {
-            printf(COLOR_RED"\nInvalid name of election district name!!\n"COLOR_RESET);
+            printf(COLOR_BOLD COLOR_RED"\nInvalid name of election district name!!\n"COLOR_RESET);
             goto checkElectionDistrictName;
         }
     }
@@ -87,7 +87,7 @@ void addElection()
     for(int i = 0 ; e.constituency[i]!='\0';i++){
         if(!isalpha(e.constituency[i]))
         {
-            printf(COLOR_RED"\nInvalid name of constituency name!!\n"COLOR_RESET);
+            printf(COLOR_RED COLOR_BOLD"\nInvalid name of constituency name!!\n"COLOR_RESET);
             goto checkConstituencyName;
         }
     }
@@ -106,6 +106,8 @@ void addElection()
     printf("\n");
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 void viewElection()
 {
@@ -119,7 +121,7 @@ void viewElection()
 	}
 	printf("\n");
     printf(COLOR_BLUE COLOR_BOLD"|----------------------------------------------Election Details------------------------------------------------------|\n"COLOR_RESET);
-	printf(COLOR_GREEN"%-10s%-20s%-30s%-20s%-20s%-15s\n","|","Name","ElectionDate","Voting_Time","District","Constituency"COLOR_RESET);
+	printf(COLOR_BOLD COLOR_GREEN"%-10s%-20s%-30s%-20s%-20s%-15s\n","|","Name","ElectionDate","Voting_Time","District","Constituency"COLOR_RESET);
     printf(COLOR_BLUE"|--------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
 	while(fread(&e,sizeof(e),1,electionfile))
 	{
@@ -130,6 +132,7 @@ void viewElection()
     printf("\n");
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void addCandidate()
 {
@@ -154,10 +157,7 @@ void addCandidate()
     }
     else
     {
-        // printf("\n");
-        // printf("-----------  Election Details  -----------\n");
-        // printf("\n");
-
+        
         printf("\n");
 	    printf(COLOR_BOLD"  ----------------------------------" COLOR_RESET COLOR_MAGENTA COLOR_BOLD" Election Details "COLOR_RESET COLOR_BOLD"-----------------------------------------------\n"COLOR_RESET);
 
@@ -196,9 +196,7 @@ void addCandidate()
             goto checkCandidateFirstName;
         }
     }
-	// printf("\nEnter Date of Birth:");
-	// scanf(" %[^\n]s",c.dob);
-    //
+	
     while(1)
         {
                 printf("\nEnter Date of Birth:");
@@ -227,20 +225,20 @@ void addCandidate()
                                 }
                                 else
                                 {
-                                        printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+                                        printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
                                 }
                         }
                         else
                         {
-                                printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+                                printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
                         }
                 }
                 else
                 {
-                        printf(COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
+                        printf(COLOR_BOLD COLOR_RED"\nInvalid Date...Please Enter right date"COLOR_RESET);
                 }
         }
-    //
+    
     if(isValidAge(day,month,year)>=18){
 
     checkElectionName:
@@ -287,10 +285,7 @@ void addCandidate()
 	printf(COLOR_BOLD"\nEnter Address:");
 	scanf(" %[^\n]s",c.address);
 
-	// printf("\nEnter Phone No.:");
-	// scanf(" %[^\n]s",c.phone);
-	// printf("\nEnter Email ID:");
-	// scanf(" %[^\n]s",c.email);
+	
     while(1)
 		{
 			i=0;
@@ -313,7 +308,7 @@ void addCandidate()
 			}
 			if(digitCount!=10 || flag1==1)
 			{
-				printf(COLOR_RED"\nInavlid Phone no. Please enter proper Phone no."COLOR_RESET);
+				printf(COLOR_BOLD COLOR_RED"\nInavlid Phone no. Please enter proper Phone no."COLOR_RESET);
 			
 			}
 			else
@@ -361,7 +356,7 @@ void addCandidate()
 			}
 			if(flag2==1)
 			{
-				printf(COLOR_RED"\nInvalid Email ID..Please Enter valid Email ID"COLOR_RESET);
+				printf(COLOR_BOLD COLOR_RED"\nInvalid Email ID..Please Enter valid Email ID"COLOR_RESET);
 			}
 			else
 			{
@@ -370,6 +365,10 @@ void addCandidate()
             
 		}
 	}
+    else{
+        printf(COLOR_RED COLOR_BOLD"\nCandidate should be greater than 18 year Your age is not eligible...\n"COLOR_RESET);
+        goto end;
+    }
 
     c.voteCount=0;
 
@@ -381,11 +380,13 @@ void addCandidate()
 	
 	fwrite(&c,sizeof(c),1,candidatefile);
     printf(COLOR_GREEN"\nSuccessfully added !!!\n"COLOR_RESET);
+    end:
 	fclose(candidatefile);
 
 
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void viewCandidate()
 {
@@ -397,7 +398,7 @@ void viewCandidate()
         {
                 printf(COLOR_RED"Cant open candidate.csv file"COLOR_RESET);
         }
-        //printf("\n=======================Candidate Details======================\n");
+        
 
 
         printf("\n");
@@ -406,7 +407,7 @@ void viewCandidate()
 	printf(COLOR_GREEN COLOR_BOLD"%-5s%-15s%-20s%-15s%-20s%-15s%-13s%-10s%-10s%-10s\n","|","Candidate ID","Candidate Name","Date of Birth","Election Name","Party Name","Constituency","Address","Phone No","Email ID"COLOR_RESET);
     printf(COLOR_BLUE"|---------------------------------------------------------------------------------------------------------------------------------------------------------|\n"COLOR_RESET);
 
-       // printf("\nCandidate ID  Candidate Name  Date of Birth  Election Name  Party Name  District    Constituency  Address    Phone No    Email ID");
+     
         while(fread(&candidate,sizeof(candidate),1,candidatefile)==1)
 	    {
         	printf("%-5s%-15d%-20s%-15s%-20s%-15s%-13s%-10s%-10s%-10s%-10s\n"," ",candidate.candidateId,candidate.name,candidate.dob,candidate.electname,candidate.partyname,candidate.district,candidate.constituency,candidate.address,candidate.phone,candidate.email);
@@ -415,6 +416,8 @@ void viewCandidate()
         printf("\n");
 	fclose(candidatefile);
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void addParty()
 {
@@ -467,6 +470,8 @@ void addParty()
 	fclose(partyfile);
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void viewParty()
 {
 	struct Party p;
@@ -492,6 +497,7 @@ void viewParty()
 	fclose(partyfile);
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void viewRequest()
 {
@@ -514,9 +520,9 @@ void viewRequest()
         while (fread(&request, sizeof(request), 1, requestfile))
         {
 
-            printf("User with UseerId %d has requested for VoterId ", request.UserId);
-            printf("\nDo you want to approve the request? \n");
-            printf("Enter your choice [y/n]: ");
+            printf(COLOR_BOLD COLOR_BLUE"User with UseerId" COLOR_RESET COLOR_YELLOW" %d " COLOR_RESET COLOR_BOLD COLOR_BLUE"has requested for VoterId "COLOR_RESET"", request.UserId);
+            printf(COLOR_BOLD COLOR_BOLD"\nDo you want to approve the request? \n"COLOR_RESET);
+            printf(COLOR_BLUE"Enter your choice " COLOR_RESET COLOR_YELLOW" [y/n]: "COLOR_RESET);
 
             scanf("%s", choice);
             if (strcmp(choice, "y") == 0 || strcmp(choice, "Y") == 0)
@@ -537,7 +543,7 @@ void viewRequest()
                 FILE *approvedUser = fopen("ApprovedUserFile.csv", "a");
                 strcpy(request.status, "Approved");
 
-                printf("Request Approved successfully \n");
+                printf(COLOR_BOLD COLOR_GREEN"\nRequest Approved successfully \n"COLOR_RESET);
                 fwrite(&request, sizeof(request), 1, approvedUser);
                 fclose(approvedUser);
             }
@@ -552,7 +558,7 @@ void viewRequest()
                         fseek(requeststatus, -sizeof(Request), SEEK_CUR);
                         fwrite(&Request, sizeof(Request), 1, requeststatus);
                         present =1;
-                        printf("Request denied successfully \n");
+                        printf(COLOR_RED"\nRequest denied successfully \n"COLOR_RESET);
                         break;
                     }
                 }
@@ -569,6 +575,8 @@ void viewRequest()
         fclose(requestfile);
     }
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void adminMenu()
 {
